@@ -121,14 +121,14 @@ HSQGTFTSDYSKYLDSRRAQDFVQWLMNT
 HSDAVFTDNYTRLRKQMAVKKYLNSILN
 EOF
 
-# ── RUN 1: Default (Random Forest only) ──────────────────────────────────────
+# RUN 1: Default (Random Forest only)
 # Runs the Random Forest model (best single-model AUC-ROC: 0.9503)
 # Output: physicochemical_features.csv + prediction_comparison_report.csv
 ampidentifier \
   --input test_peptides.fasta \
   --output_dir ./results_rf
 
-# ── RUN 2: SVM model ─────────────────────────────────────────────────────────
+# RUN 2: SVM model
 # Uses the Support Vector Machine model instead of Random Forest
 # SVM prioritizes structural/geometric features; good complement to RF
 ampidentifier \
@@ -136,15 +136,15 @@ ampidentifier \
   --output_dir ./results_svm \
   --model svm
 
-# ── RUN 3: Gradient Boosting model ───────────────────────────────────────────
-# Gradient Boosting is the most "aggressive" electrostatic detector
+# RUN 3: Gradient Boosting model
+# Gradient Boosting is the most aggressive electrostatic detector
 # It penalizes peptides with insufficient net charge very strongly
 ampidentifier \
   --input test_peptides.fasta \
   --output_dir ./results_gb \
   --model gb
 
-# ── RUN 4: Ensemble mode (RECOMMENDED) ───────────────────────────────────────
+# RUN 4: Ensemble mode (RECOMMENDED)
 # Runs RF + SVM + GB simultaneously and combines via majority vote
 # This is the most robust configuration, recommended for real analyses
 ampidentifier \
@@ -152,7 +152,7 @@ ampidentifier \
   --output_dir ./results_ensemble \
   --ensemble
 
-# ── RUN 5: Ensemble + external custom model ───────────────────────────────────
+# RUN 5: Ensemble + external custom model
 # Adds a user-provided .pkl model to the ensemble comparison
 # Useful for benchmarking your own trained model alongside the built-in ones
 # Replace /path/to/my_model.pkl with the actual path to your model file
@@ -162,7 +162,7 @@ ampidentifier \
   --ensemble \
   --external_models /path/to/my_model.pkl
 
-# ── RUN 6: Single model + external model comparison ──────────────────────────
+# RUN 6: Single model + external model comparison
 # Runs only SVM as the internal model, plus one external model side-by-side
 # Useful to isolate comparisons without running all three internal models
 ampidentifier \
@@ -183,12 +183,12 @@ Click the badge to open directly in Colab:
 Or run the cells below manually in any Colab notebook:
 
 ```python
-# ── Cell 1: Install ───────────────────────────────────────────────────────────
+# Cell 1: Install
 !pip install ampidentifier
 ```
 
 ```python
-# ── Cell 2: Create the example FASTA file ────────────────────────────────────
+# Cell 2: Create the example FASTA file
 fasta_content = """>Magainin-2|Xenopus_laevis|Cationic_amphipathic_helix
 GIGKFLHSAKKFGKAFVGEIMNS
 >LL-37|Homo_sapiens|Cathelicidin_family
@@ -210,20 +210,20 @@ print("FASTA file created with 6 sequences (3 known AMPs + 3 non-AMPs)")
 ```
 
 ```python
-# ── Cell 3: Run — Default (Random Forest) ────────────────────────────────────
+# Cell 3: Run with default model (Random Forest)
 # Uses the Random Forest model, which has the best single-model performance
 !ampidentifier --input test_peptides.fasta --output_dir ./results_rf
 ```
 
 ```python
-# ── Cell 4: Run — Ensemble mode (recommended) ────────────────────────────────
+# Cell 4: Run with ensemble mode (recommended)
 # Runs RF + SVM + GB and combines predictions via majority voting
 # Most robust configuration for real-world AMP screening
 !ampidentifier --input test_peptides.fasta --output_dir ./results_ensemble --ensemble
 ```
 
 ```python
-# ── Cell 5: Inspect results ───────────────────────────────────────────────────
+# Cell 5: Inspect results
 import pandas as pd
 
 # Load and display the prediction report
@@ -239,7 +239,7 @@ print(features[['ID', 'Length', 'Charge', 'Hydrophobicity']].to_string(index=Fal
 ```
 
 ```python
-# ── Cell 6: Compare all three internal models individually ────────────────────
+# Cell 6: Compare all three internal models individually
 import os
 
 for model in ["rf", "svm", "gb"]:
