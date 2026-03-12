@@ -3,6 +3,7 @@
 import pandas as pd
 import joblib
 import os
+import warnings
 from typing import Optional
 
 def load_model(model_path: str):
@@ -12,7 +13,9 @@ def load_model(model_path: str):
     Returns the loaded model object or None if an error occurs.
     """
     try:
-        model = joblib.load(model_path)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            model = joblib.load(model_path)
         print(f"Model loaded successfully from {model_path}")
         return model
     except FileNotFoundError:
@@ -29,7 +32,9 @@ def load_scaler(scaler_path: str):
     Returns the loaded scaler object or None if an error occurs.
     """
     try:
-        scaler = joblib.load(scaler_path)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            scaler = joblib.load(scaler_path)
         print(f"Scaler loaded successfully from {scaler_path}")
         return scaler
     except FileNotFoundError:
