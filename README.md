@@ -2,6 +2,11 @@
 
 > A Python toolkit for Antimicrobial Peptide (AMP) prediction and physicochemical assessment
 
+[![PyPI version](https://img.shields.io/pypi/v/ampidentifier.svg)](https://pypi.org/project/ampidentifier/)
+[![Python](https://img.shields.io/pypi/pyversions/ampidentifier.svg)](https://pypi.org/project/ampidentifier/)
+[![License](https://img.shields.io/badge/license-All%20rights%20reserved-red.svg)](https://github.com/madsondeluna/AMPidentifier_PyPI)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/ampidentifier.svg)](https://pypi.org/project/ampidentifier/)
+
 ```
 ////////////////////////////////////////////////////////////////////////
 //                                                                    //
@@ -47,6 +52,8 @@ source venv/bin/activate   # macOS/Linux
 # venv\Scripts\activate    # Windows
 pip install ampidentifier
 ```
+
+> Available on PyPI: https://pypi.org/project/ampidentifier/
 
 ---
 
