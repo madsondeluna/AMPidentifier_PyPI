@@ -287,4 +287,3 @@ https://github.com/madsondeluna/AMPidentifier
 ## License
 
 This project is licensed under the terms specified in the repository. All rights reserved.
-© Madson A. de Luna Aragão et al., 2025.
