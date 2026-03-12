@@ -211,48 +211,74 @@ print("FASTA file created with 6 sequences (3 known AMPs + 3 non-AMPs)")
 
 ```python
 # Cell 3: Run with default model (Random Forest)
-# Uses the Random Forest model, which has the best single-model performance
-!ampidentifier --input test_peptides.fasta --output_dir ./results_rf
+# Import the pipeline function directly from the package
+import os
+from amp_identifier.core import run_prediction_pipeline
+
+os.makedirs("./results_rf", exist_ok=True)
+
+run_prediction_pipeline(
+    input_file="test_peptides.fasta",
+    output_dir="./results_rf",
+    internal_model_type="rf",   # Random Forest: best single-model AUC-ROC (0.9503)
+    use_ensemble=False,
+    external_model_paths=[],
+)
 ```
 
 ```python
 # Cell 4: Run with ensemble mode (recommended)
-# Runs RF + SVM + GB and combines predictions via majority voting
-# Most robust configuration for real-world AMP screening
-!ampidentifier --input test_peptides.fasta --output_dir ./results_ensemble --ensemble
+# Combines RF + SVM + GB via majority voting for maximum robustness
+import os
+from amp_identifier.core import run_prediction_pipeline
+
+os.makedirs("./results_ensemble", exist_ok=True)
+
+run_prediction_pipeline(
+    input_file="test_peptides.fasta",
+    output_dir="./results_ensemble",
+    internal_model_type="rf",   # ignored when use_ensemble=True
+    use_ensemble=True,          # activates majority vote across all three models
+    external_model_paths=[],
+)
 ```
 
 ```python
 # Cell 5: Inspect results
 import pandas as pd
 
-# Load and display the prediction report
+# Prediction report: AMP/non-AMP classification per sequence per model
 report = pd.read_csv("./results_ensemble/prediction_comparison_report.csv")
 print("=== Ensemble Prediction Report ===")
 print(report.to_string(index=False))
 
-# Load and display the physicochemical features
+# Physicochemical features: descriptors computed for each sequence
 features = pd.read_csv("./results_ensemble/physicochemical_features.csv")
 print(f"\n=== Physicochemical Features ===")
-print(f"Shape: {features.shape[0]} sequences × {features.shape[1]} descriptors")
+print(f"Shape: {features.shape[0]} sequences x {features.shape[1]} descriptors")
 print(features[['ID', 'Length', 'Charge', 'Hydrophobicity']].to_string(index=False))
 ```
 
 ```python
 # Cell 6: Compare all three internal models individually
 import os
+import pandas as pd
+from amp_identifier.core import run_prediction_pipeline
 
 for model in ["rf", "svm", "gb"]:
-    # Run each model separately and compare outputs
     os.makedirs(f"./results_{model}", exist_ok=True)
-    !ampidentifier \
-        --input test_peptides.fasta \
-        --output_dir ./results_{model} \
-        --model {model}
+
+    run_prediction_pipeline(
+        input_file="test_peptides.fasta",
+        output_dir=f"./results_{model}",
+        internal_model_type=model,
+        use_ensemble=False,
+        external_model_paths=[],
+    )
 
     report = pd.read_csv(f"./results_{model}/prediction_comparison_report.csv")
     pred_col = [c for c in report.columns if c.startswith("pred_")][0]
-    amp_count = report[pred_col].sum()
+    amp_count = int(report[pred_col].sum())
     print(f"[{model.upper()}] Predicted AMPs: {amp_count}/6")
 ```
 
