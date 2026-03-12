@@ -189,7 +189,7 @@ print(report.to_string(index=False))
 features = pd.read_csv(features_path)
 print(f"\n=== Physicochemical Features ===")
 print(f"Shape: {features.shape[0]} sequences x {features.shape[1]} descriptors")
-print(features[['ID', 'Length', 'Charge', 'Hydrophobicity']].to_string(index=False))
+print(features[['ID', 'Length', 'Charge', 'HydrophRatio']].to_string(index=False))
 ```
 
 ```python
