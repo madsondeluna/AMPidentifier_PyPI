@@ -4,7 +4,6 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/ampidentifier.svg)](https://pypi.org/project/ampidentifier/)
 [![Python](https://img.shields.io/pypi/pyversions/ampidentifier.svg)](https://pypi.org/project/ampidentifier/)
-[![PyPI Downloads](https://img.shields.io/pypi/dm/ampidentifier.svg)](https://pypi.org/project/ampidentifier/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange?logo=scikit-learn)](https://scikit-learn.org)
 [![NumPy](https://img.shields.io/badge/NumPy-array-blue?logo=numpy)](https://numpy.org)
 [![Pandas](https://img.shields.io/badge/Pandas-dataframes-150458?logo=pandas)](https://pandas.pydata.org)
@@ -87,7 +86,7 @@ HSQGTFTSDYSKYLDSRRAQDFVQWLMNT
 HSDAVFTDNYTRLRKQMAVKKYLNSILN
 ```
 
-### Usage Example — Google Colab / Jupyter Notebook
+### Usage Example - Google Colab / Jupyter Notebook
 
 Click the badge to open the demo notebook directly in Colab:
 
