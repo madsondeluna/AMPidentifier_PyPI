@@ -245,15 +245,29 @@ run_prediction_pipeline(
 
 ```python
 # Cell 5: Inspect results
+# Runs ensemble first if output does not exist yet, then displays results
+import os
 import pandas as pd
+from amp_identifier.core import run_prediction_pipeline
 
-# Prediction report: AMP/non-AMP classification per sequence per model
-report = pd.read_csv("./results_ensemble/prediction_comparison_report.csv")
+report_path   = "./results_ensemble/prediction_comparison_report.csv"
+features_path = "./results_ensemble/physicochemical_features.csv"
+
+if not os.path.exists(report_path):
+    os.makedirs("./results_ensemble", exist_ok=True)
+    run_prediction_pipeline(
+        input_file="test_peptides.fasta",
+        output_dir="./results_ensemble",
+        internal_model_type="rf",
+        use_ensemble=True,
+        external_model_paths=[],
+    )
+
+report = pd.read_csv(report_path)
 print("=== Ensemble Prediction Report ===")
 print(report.to_string(index=False))
 
-# Physicochemical features: descriptors computed for each sequence
-features = pd.read_csv("./results_ensemble/physicochemical_features.csv")
+features = pd.read_csv(features_path)
 print(f"\n=== Physicochemical Features ===")
 print(f"Shape: {features.shape[0]} sequences x {features.shape[1]} descriptors")
 print(features[['ID', 'Length', 'Charge', 'Hydrophobicity']].to_string(index=False))
