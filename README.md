@@ -72,6 +72,192 @@ ampidentifier --input my_sequences.fasta --output_dir ./results --model svm --ex
 
 ---
 
+## Usage Examples
+
+The examples below use this sample FASTA file (`test_peptides.fasta`) — it contains known AMPs and non-AMP peptides for demonstration:
+
+```
+>Magainin-2|Xenopus_laevis|Cationic_amphipathic_helix
+GIGKFLHSAKKFGKAFVGEIMNS
+>LL-37|Homo_sapiens|Cathelicidin_family
+LLGDFFRKSKEKIGKEFKRIVQRIKDFLRNLVPRTES
+>Melittin|Apis_mellifera|Venom_peptide
+GIGAVLKVLTTGLPALISWIKRKRQQ
+>Insulin_Chain_B|Homo_sapiens|Peptide_hormone
+FVNQHLCGSHLVEALYLVCGERGFFYTPKT
+>Glucagon|Homo_sapiens|Peptide_hormone
+HSQGTFTSDYSKYLDSRRAQDFVQWLMNT
+>Vasoactive_intestinal_peptide|Homo_sapiens|Neuropeptide
+HSDAVFTDNYTRLRKQMAVKKYLNSILN
+```
+
+---
+
+### Example 1 — Linux/macOS Terminal (virtual environment)
+
+Full workflow from a clean environment:
+
+```bash
+# 1. Create and activate a virtual environment
+python3 -m venv ampenv
+source ampenv/bin/activate
+
+# 2. Install AMPidentifier
+pip install ampidentifier
+
+# 3. Save the example FASTA to a file
+cat > test_peptides.fasta << 'EOF'
+>Magainin-2|Xenopus_laevis|Cationic_amphipathic_helix
+GIGKFLHSAKKFGKAFVGEIMNS
+>LL-37|Homo_sapiens|Cathelicidin_family
+LLGDFFRKSKEKIGKEFKRIVQRIKDFLRNLVPRTES
+>Melittin|Apis_mellifera|Venom_peptide
+GIGAVLKVLTTGLPALISWIKRKRQQ
+>Insulin_Chain_B|Homo_sapiens|Peptide_hormone
+FVNQHLCGSHLVEALYLVCGERGFFYTPKT
+>Glucagon|Homo_sapiens|Peptide_hormone
+HSQGTFTSDYSKYLDSRRAQDFVQWLMNT
+>Vasoactive_intestinal_peptide|Homo_sapiens|Neuropeptide
+HSDAVFTDNYTRLRKQMAVKKYLNSILN
+EOF
+
+# ── RUN 1: Default (Random Forest only) ──────────────────────────────────────
+# Runs the Random Forest model (best single-model AUC-ROC: 0.9503)
+# Output: physicochemical_features.csv + prediction_comparison_report.csv
+ampidentifier \
+  --input test_peptides.fasta \
+  --output_dir ./results_rf
+
+# ── RUN 2: SVM model ─────────────────────────────────────────────────────────
+# Uses the Support Vector Machine model instead of Random Forest
+# SVM prioritizes structural/geometric features; good complement to RF
+ampidentifier \
+  --input test_peptides.fasta \
+  --output_dir ./results_svm \
+  --model svm
+
+# ── RUN 3: Gradient Boosting model ───────────────────────────────────────────
+# Gradient Boosting is the most "aggressive" electrostatic detector
+# It penalizes peptides with insufficient net charge very strongly
+ampidentifier \
+  --input test_peptides.fasta \
+  --output_dir ./results_gb \
+  --model gb
+
+# ── RUN 4: Ensemble mode (RECOMMENDED) ───────────────────────────────────────
+# Runs RF + SVM + GB simultaneously and combines via majority vote
+# This is the most robust configuration, recommended for real analyses
+ampidentifier \
+  --input test_peptides.fasta \
+  --output_dir ./results_ensemble \
+  --ensemble
+
+# ── RUN 5: Ensemble + external custom model ───────────────────────────────────
+# Adds a user-provided .pkl model to the ensemble comparison
+# Useful for benchmarking your own trained model alongside the built-in ones
+# Replace /path/to/my_model.pkl with the actual path to your model file
+ampidentifier \
+  --input test_peptides.fasta \
+  --output_dir ./results_ensemble_custom \
+  --ensemble \
+  --external_models /path/to/my_model.pkl
+
+# ── RUN 6: Single model + external model comparison ──────────────────────────
+# Runs only SVM as the internal model, plus one external model side-by-side
+# Useful to isolate comparisons without running all three internal models
+ampidentifier \
+  --input test_peptides.fasta \
+  --output_dir ./results_compare \
+  --model svm \
+  --external_models /path/to/my_model.pkl
+```
+
+---
+
+### Example 2 — Google Colab
+
+Click the badge to open directly in Colab:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/madsondeluna/AMPidentifier_PyPI/blob/main/notebooks/ampidentifier_demo.ipynb)
+
+Or run the cells below manually in any Colab notebook:
+
+```python
+# ── Cell 1: Install ───────────────────────────────────────────────────────────
+!pip install ampidentifier
+```
+
+```python
+# ── Cell 2: Create the example FASTA file ────────────────────────────────────
+fasta_content = """>Magainin-2|Xenopus_laevis|Cationic_amphipathic_helix
+GIGKFLHSAKKFGKAFVGEIMNS
+>LL-37|Homo_sapiens|Cathelicidin_family
+LLGDFFRKSKEKIGKEFKRIVQRIKDFLRNLVPRTES
+>Melittin|Apis_mellifera|Venom_peptide
+GIGAVLKVLTTGLPALISWIKRKRQQ
+>Insulin_Chain_B|Homo_sapiens|Peptide_hormone
+FVNQHLCGSHLVEALYLVCGERGFFYTPKT
+>Glucagon|Homo_sapiens|Peptide_hormone
+HSQGTFTSDYSKYLDSRRAQDFVQWLMNT
+>Vasoactive_intestinal_peptide|Homo_sapiens|Neuropeptide
+HSDAVFTDNYTRLRKQMAVKKYLNSILN
+"""
+
+with open("test_peptides.fasta", "w") as f:
+    f.write(fasta_content)
+
+print("FASTA file created with 6 sequences (3 known AMPs + 3 non-AMPs)")
+```
+
+```python
+# ── Cell 3: Run — Default (Random Forest) ────────────────────────────────────
+# Uses the Random Forest model, which has the best single-model performance
+!ampidentifier --input test_peptides.fasta --output_dir ./results_rf
+```
+
+```python
+# ── Cell 4: Run — Ensemble mode (recommended) ────────────────────────────────
+# Runs RF + SVM + GB and combines predictions via majority voting
+# Most robust configuration for real-world AMP screening
+!ampidentifier --input test_peptides.fasta --output_dir ./results_ensemble --ensemble
+```
+
+```python
+# ── Cell 5: Inspect results ───────────────────────────────────────────────────
+import pandas as pd
+
+# Load and display the prediction report
+report = pd.read_csv("./results_ensemble/prediction_comparison_report.csv")
+print("=== Ensemble Prediction Report ===")
+print(report.to_string(index=False))
+
+# Load and display the physicochemical features
+features = pd.read_csv("./results_ensemble/physicochemical_features.csv")
+print(f"\n=== Physicochemical Features ===")
+print(f"Shape: {features.shape[0]} sequences × {features.shape[1]} descriptors")
+print(features[['ID', 'Length', 'Charge', 'Hydrophobicity']].to_string(index=False))
+```
+
+```python
+# ── Cell 6: Compare all three internal models individually ────────────────────
+import os
+
+for model in ["rf", "svm", "gb"]:
+    # Run each model separately and compare outputs
+    os.makedirs(f"./results_{model}", exist_ok=True)
+    !ampidentifier \
+        --input test_peptides.fasta \
+        --output_dir ./results_{model} \
+        --model {model}
+
+    report = pd.read_csv(f"./results_{model}/prediction_comparison_report.csv")
+    pred_col = [c for c in report.columns if c.startswith("pred_")][0]
+    amp_count = report[pred_col].sum()
+    print(f"[{model.upper()}] Predicted AMPs: {amp_count}/6")
+```
+
+---
+
 ## Arguments
 
 | Argument                | Description                                                                  | Required | Default |
