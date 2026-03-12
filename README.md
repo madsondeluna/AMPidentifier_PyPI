@@ -25,6 +25,8 @@
 
 Users can run predictions with the built-in models, combine them in ensemble mode, or integrate external `.pkl` models for side-by-side comparison.
 
+AMPidentifier is officially published on the Python Package Index (PyPI) at https://pypi.org/project/ampidentifier/ and can be installed directly via `pip install ampidentifier`. PyPI publication ensures that every release is versioned, indexed, and permanently accessible, which is essential for reproducibility in scientific workflows: researchers can cite a specific version and reproduce results exactly, regardless of when or where the analysis is run.
+
 ## Related Projects
 
 | Project | Description | Link |
