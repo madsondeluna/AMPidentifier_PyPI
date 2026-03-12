@@ -1,0 +1,6 @@
+include README.md
+recursive-include amp_identifier/models *.pkl
+global-exclude ._*
+global-exclude .DS_Store
+global-exclude __pycache__
+global-exclude *.py[cod]

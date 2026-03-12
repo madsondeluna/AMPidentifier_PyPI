@@ -50,3 +50,10 @@ htmlcov/
 test_progress/
 data-for-tests/results_*/
 *.log
+
+# Build / PyPI
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/

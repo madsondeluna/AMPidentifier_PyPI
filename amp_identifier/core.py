@@ -5,8 +5,8 @@ import glob
 import pandas as pd
 from . import data_io, feature_extraction, prediction, reporting
 
-# Define the location of internal models
-MODEL_DIR = "model_training/saved_model"
+# Define the location of internal models (bundled inside the package)
+MODEL_DIR = os.path.join(os.path.dirname(__file__), "models")
 SCALER_PATH = os.path.join(MODEL_DIR, "feature_scaler.pkl")
 
 

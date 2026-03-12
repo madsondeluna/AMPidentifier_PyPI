@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ampidentifier"
+version = "1.0.0"
+description = "A Python toolkit for Antimicrobial Peptide (AMP) prediction using ensemble machine learning"
+readme = "README.md"
+license = { text = "All rights reserved" }
+authors = [
+    { name = "Madson A. de Luna Aragão", email = "madsondeluna@gmail.com" }
+]
+keywords = ["bioinformatics", "antimicrobial peptides", "machine learning", "AMP", "peptide prediction"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "joblib",
+    "biopython",
+    "modlAMP",
+]
+
+[project.urls]
+Homepage = "https://github.com/madsondeluna/AMPidentifier_PyPI"
+"CLI Version" = "https://github.com/madsondeluna/AMPidentifier"
+"Web Server" = "https://github.com/madsondeluna/AMPidentifierServerBETA"
+"Bug Tracker" = "https://github.com/madsondeluna/AMPidentifier_PyPI/issues"
+
+[project.scripts]
+ampidentifier = "amp_identifier.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["amp_identifier*"]
+
+[tool.setuptools.package-data]
+amp_identifier = ["models/*.pkl"]
