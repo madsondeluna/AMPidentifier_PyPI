@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ampidentifier"
-version = "1.0.1"
+version = "1.0.2"
 description = "A Python toolkit for Antimicrobial Peptide (AMP) prediction using ensemble machine learning"
 readme = "README.md"
 license = { text = "All rights reserved" }
