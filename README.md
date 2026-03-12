@@ -19,15 +19,11 @@
 ////////////////////////////////////////////////////////////////////////
 ```
 
----
-
 ## About
 
 **AMPidentifier** is an open-source, modular Python toolkit for predicting Antimicrobial Peptides (AMPs) from amino acid sequences. It combines three pre-trained Machine Learning models (Random Forest, SVM, Gradient Boosting) with an ensemble voting system, and computes dozens of physicochemical descriptors via `modlamp`.
 
 Users can run predictions with the built-in models, combine them in ensemble mode, or integrate external `.pkl` models for side-by-side comparison.
-
----
 
 ## Related Projects
 
@@ -35,8 +31,6 @@ Users can run predictions with the built-in models, combine them in ensemble mod
 |---------|-------------|------|
 | **AMPidentifier CLI** | Full command-line version with training scripts, benchmarking, and extended documentation | [github.com/madsondeluna/AMPidentifier](https://github.com/madsondeluna/AMPidentifier) |
 | **AMPidentifier Web Server** | Browser-based interface for AMP prediction (no installation required) | [github.com/madsondeluna/AMPidentifierServerBETA](https://github.com/madsondeluna/AMPidentifierServerBETA) |
-
----
 
 ## Installation
 
@@ -55,8 +49,6 @@ pip install ampidentifier
 
 > Available on PyPI: https://pypi.org/project/ampidentifier/
 
----
-
 ## Quick Start
 
 ```bash
@@ -70,11 +62,9 @@ ampidentifier --input my_sequences.fasta --output_dir ./results --ensemble
 ampidentifier --input my_sequences.fasta --output_dir ./results --model svm --external_models /path/to/my_model.pkl
 ```
 
----
-
 ## Usage Examples
 
-The examples below use this sample FASTA file (`test_peptides.fasta`) — it contains known AMPs and non-AMP peptides for demonstration:
+The examples below use this sample FASTA file (`test_peptides.fasta`) containing known AMPs and non-AMP peptides for demonstration:
 
 ```
 >Magainin-2|Xenopus_laevis|Cationic_amphipathic_helix
@@ -91,13 +81,11 @@ HSQGTFTSDYSKYLDSRRAQDFVQWLMNT
 HSDAVFTDNYTRLRKQMAVKKYLNSILN
 ```
 
----
-
 ### Usage Example — Google Colab / Jupyter Notebook
 
-Click the badge to open directly in Colab:
+Click the badge to open the demo notebook directly in Colab:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/madsondeluna/AMPidentifier_PyPI/blob/main/notebooks/ampidentifier_demo.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1W5uMh5GXGXnu8I9rvGH4cUAU31tUJ15Q?usp=sharing)
 
 Or run the cells below manually in any Colab notebook:
 
@@ -215,19 +203,15 @@ for model in ["rf", "svm", "gb"]:
     print(f"[{model.upper()}] Predicted AMPs: {amp_count}/6")
 ```
 
----
-
 ## Arguments
 
 | Argument                | Description                                                                  | Required | Default |
 |-------------------------|------------------------------------------------------------------------------|:--------:|:-------:|
-| `-i, --input`           | Path to the input FASTA file                                                 | Yes      | -       |
-| `-o, --output_dir`      | Path to the output directory                                                 | Yes      | -       |
+| `-i, --input`           | Path to the input FASTA file                                                 | Yes      | none    |
+| `-o, --output_dir`      | Path to the output directory                                                 | Yes      | none    |
 | `-m, --model`           | Internal model to use: `rf`, `svm`, `gb`                                     | No       | `rf`    |
 | `--ensemble`            | Enable majority-vote ensemble across all internal models                     | No       | Flag    |
-| `-e, --external_models` | One or more paths to external `.pkl` models for comparison (comma-separated) | No       | -       |
-
----
+| `-e, --external_models` | One or more paths to external `.pkl` models for comparison (comma-separated) | No       | none    |
 
 ## Key Features
 
@@ -236,8 +220,6 @@ for model in ["rf", "svm", "gb"]:
 - **External model support:** Load custom `.pkl` models for comparison
 - **Physicochemical descriptors:** Compute and export an extensive set of sequence features via `modlamp`
 - **Fully open-source and modular:** Each component can be used independently
-
----
 
 ## Pre-Trained Model Performance
 
@@ -254,16 +236,12 @@ Best values per metric in **bold**.
 
 **Recommended:** use `--ensemble` for most robust predictions (Accuracy: 87.47%, Sensitivity: 85.96%, Specificity: 88.98%).
 
----
-
 ## Outputs
 
 | File | Description |
 |------|-------------|
 | `physicochemical_features.csv` | Computed physicochemical descriptors for each input sequence |
 | `prediction_comparison_report.csv` | AMP/non-AMP predictions with confidence scores per model and consensus |
-
----
 
 ## Project Structure
 
@@ -277,8 +255,6 @@ amp_identifier/
 └── reporting.py          # CSV report generation
 ```
 
----
-
 ## Contributors
 
 | Name | Role | Affiliation |
@@ -289,15 +265,11 @@ amp_identifier/
 | João Pacífico, PhD | Co-Advisor; computational review; evaluation | UPE |
 | Carlos A. dos Santos-Silva, PhD | Co-Advisor; pipeline testing; review | CESMAC |
 
----
-
 ## Funding & Acknowledgments
 
 - Officially registered under **UFPE** - Universidade Federal de Pernambuco, Brazil
 - Supported by **FACEPE** - Fundação de Amparo à Pesquisa do Estado de Pernambuco
 - **INPI Registration:** BR 51 2025 005859-4
-
----
 
 ## How to Cite
 
@@ -307,8 +279,6 @@ Luna-Aragão, M. A., da Silva, R. L., Pacífico, J., Santos-Silva, C. A. & Benko
 machine learning and physicochemical descriptors.
 https://github.com/madsondeluna/AMPidentifier
 ```
-
----
 
 ## License
 
